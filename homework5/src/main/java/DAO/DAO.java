@@ -1,4 +1,4 @@
-package DAO;
+package dao;
 
 import org.jetbrains.annotations.NotNull;
 
