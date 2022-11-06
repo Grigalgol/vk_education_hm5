@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 public class Invoice {
 
-    private @NotNull Long id;
+    private @NotNull int id;
     private @NotNull Timestamp date;
     private @NotNull int organizationSender;
 

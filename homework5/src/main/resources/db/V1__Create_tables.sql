@@ -15,7 +15,7 @@ CREATE TABLE organization
 
 CREATE TABLE invoice
 (
-    id                  SERIAL    NOT NULL,
+    id                  INT       NOT NULL,
     date                TIMESTAMP NOT NULL,
     organization_sender INT       NOT NULL REFERENCES organization (inn) ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT invoice_pk PRIMARY KEY (id)
@@ -23,9 +23,10 @@ CREATE TABLE invoice
 
 CREATE TABLE invoice_item
 (
+    id         INT NOT NULL,
     price      INT NOT NULL,
     product    INT NOT NULL REFERENCES product (internal_code) ON UPDATE CASCADE ON DELETE CASCADE,
     count      INT NOT NULL,
     id_invoice INT NOT NULL REFERENCES invoice (id) ON UPDATE CASCADE ON DELETE CASCADE,
-    CONSTRAINT invoice_item_pk PRIMARY KEY (id_invoice, product)
+    CONSTRAINT invoice_item_pk PRIMARY KEY (id)
 );

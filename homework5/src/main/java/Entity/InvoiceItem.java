@@ -10,8 +10,9 @@ import org.jetbrains.annotations.NotNull;
 @AllArgsConstructor
 public class InvoiceItem {
 
+    private @NotNull int id;
     private @NotNull int idInvoice;
-    private @NotNull int product_code;
+    private @NotNull int productCode;
     private @NotNull int price;
     private @NotNull int count;
 
