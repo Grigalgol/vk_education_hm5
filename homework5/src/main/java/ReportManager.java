@@ -108,7 +108,7 @@ public class ReportManager {
             try(var resultSet = statement.getResultSet()) {
                 while(resultSet.next()) {
                     Date date = resultSet.getDate("date");
-                    Product product = new Product(resultSet.getString("pr_name"), resultSet.getInt("internalCode"));
+                    Product product = new Product(resultSet.getString("pr_name"), resultSet.getInt("internal_code"));
                     String count = "count";
                     String sum = "sum";
                     Integer countInt = resultSet.getInt("cnt");
@@ -165,7 +165,7 @@ public class ReportManager {
     //Вывести список товаров, поставленных организациями за период.
     //Если организация товары не поставляла, то она все равно должна быть отражена в списке.
     private final static String GET_LIST_OF_PRODUCTS_DELIVERED_BY_ORG_FOR_PERIOD_SQL = "SELECT organization.name as org_name, organization.inn as inn, " +
-            "payment_account, product.name as prod_name, product.internal_code as code " +
+            "payment_account, product.name as prod_name, internal_code " +
             "FROM organization " +
             "LEFT JOIN invoice ON invoice.organization_sender = organization.inn " +
             "LEFT JOIN invoice_item ON invoice_item.id_invoice = invoice.id " +
@@ -189,7 +189,7 @@ public class ReportManager {
                     if(resultSet.getString("prod_name") != null) {
                         product = new Product(
                                 resultSet.getString("prod_name"),
-                                resultSet.getInt("code")
+                                resultSet.getInt("internal_code")
                         );
                     }
                     if (!map.containsKey(organization)) {
