@@ -1,9 +1,11 @@
 package dao;
 
+import commons.JDBCCredentials;
 import entity.Product;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +19,17 @@ public final class ProductDAO implements DAO<Product> {
     private static final String DELETE_SQL = "DELETE FROM product WHERE internal_code = ?";
 
     private final @NotNull Connection connection;
+    private static final @NotNull JDBCCredentials CREDS = JDBCCredentials.DEFAULT;
 
     public ProductDAO(@NotNull Connection connection) {
         this.connection = connection;
+    }
+    public ProductDAO() {
+        try {
+            this.connection = DriverManager.getConnection(CREDS.url(), CREDS.login(), CREDS.password());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

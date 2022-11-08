@@ -6,7 +6,8 @@ VALUES ('lego', 100),
 
 INSERT INTO organization(name, inn, payment_account)
 VALUES ('toy shop', 55555, 450012),
-       ('fruit shop', 12345, 123124);
+       ('fruit shop', 12345, 123124),
+       ('null shop', 21231, 2134321);
 
 INSERT INTO invoice(id, date, organization_sender)
 VALUES (1, '2022-11-05 12:00:00', 12345),

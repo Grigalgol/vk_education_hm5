@@ -1,10 +1,11 @@
 package dao;
 
+import commons.JDBCCredentials;
 import entity.Organization;
-import entity.Product;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +20,18 @@ public class OrganizationDAO implements DAO<Organization>{
 
     private final @NotNull Connection connection;
 
+    private static final @NotNull JDBCCredentials CREDS = JDBCCredentials.DEFAULT;
+
     public OrganizationDAO(@NotNull Connection connection) {
         this.connection = connection;
+    }
+
+    public OrganizationDAO() {
+        try {
+            this.connection = DriverManager.getConnection(CREDS.url(), CREDS.login(), CREDS.password());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

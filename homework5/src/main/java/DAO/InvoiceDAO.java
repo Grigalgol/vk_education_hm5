@@ -1,10 +1,11 @@
 package dao;
 
+import commons.JDBCCredentials;
 import entity.Invoice;
-import entity.Product;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +19,17 @@ public class InvoiceDAO implements DAO<Invoice> {
     private static final String DELETE_SQL = "DELETE FROM invoice WHERE id = ?";
 
     private final @NotNull Connection connection;
+    private static final @NotNull JDBCCredentials CREDS = JDBCCredentials.DEFAULT;
 
     public InvoiceDAO(@NotNull Connection connection) {
         this.connection = connection;
+    }
+    public InvoiceDAO() {
+        try {
+            this.connection = DriverManager.getConnection(CREDS.url(), CREDS.login(), CREDS.password());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

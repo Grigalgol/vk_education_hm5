@@ -1,17 +1,27 @@
+import commons.JDBCCredentials;
 import entity.Organization;
 import entity.Product;
 import org.jetbrains.annotations.NotNull;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.*;
 
 public class ReportManager {
     private final @NotNull Connection connection;
+    private static final @NotNull JDBCCredentials CREDS = JDBCCredentials.DEFAULT;
 
     public ReportManager(@NotNull Connection connection) {
         this.connection = connection;
+    }
+    public ReportManager() {
+        try {
+            this.connection = DriverManager.getConnection(CREDS.url(), CREDS.login(), CREDS.password());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     //Выбрать первые 10 поставщиков по количеству поставленного товара
@@ -60,13 +70,13 @@ public class ReportManager {
 
         map.forEach((code, sum) ->
                 sql.append("x.product = " + "?" + " AND x.sum > " + "?" + " OR ")
-                );
+        );
 
-        sql.delete(sql.length()-4, sql.length());
+        sql.delete(sql.length() - 4, sql.length());
 
         try (var statement = connection.prepareStatement(sql.toString())) {
             int fieldIndex = 1;
-            for(Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
                 Integer code = entry.getKey();
                 Integer count = entry.getValue();
                 statement.setInt(fieldIndex++, code);
@@ -101,19 +111,31 @@ public class ReportManager {
 
     public @NotNull Map<Date, List<Map<Product, Map<String, Integer>>>> getCountAndSumProductByDayInPeriod(Timestamp start, Timestamp end) {
         Map<Date, List<Map<Product, Map<String, Integer>>>> map = new HashMap<>();
-        try(var statement = connection.prepareStatement(GET_COUNT_AND_SUM_PRODUCT_BY_DAY_IN_PERIOD)) {
+        Map<Product, Integer> totalCount = new HashMap<>();
+        Map<Product, Integer> totalSum = new HashMap<>();
+        try (var statement = connection.prepareStatement(GET_COUNT_AND_SUM_PRODUCT_BY_DAY_IN_PERIOD)) {
             statement.setTimestamp(1, start);
             statement.setTimestamp(2, end);
             statement.executeQuery();
-            try(var resultSet = statement.getResultSet()) {
-                while(resultSet.next()) {
+            try (var resultSet = statement.getResultSet()) {
+                while (resultSet.next()) {
                     Date date = resultSet.getDate("date");
                     Product product = new Product(resultSet.getString("pr_name"), resultSet.getInt("internal_code"));
+                    if(!totalCount.containsKey(product)) {
+                        totalCount.put(product, 0);
+                    }
+                    if(!totalSum.containsKey(product)) {
+                        totalSum.put(product, 0);
+                    }
                     String count = "count";
                     String sum = "sum";
                     Integer countInt = resultSet.getInt("cnt");
                     Integer sumInt = resultSet.getInt("pr");
-                    if(!map.containsKey(date)) {
+                    Integer currentCount = totalCount.get(product) + countInt;
+                    Integer currentSum = totalSum.get(product) + sumInt;
+                    totalCount.put(product, currentCount);
+                    totalSum.put(product, currentSum);
+                    if (!map.containsKey(date)) {
                         map.put(date, new ArrayList<>());
                     }
                     Map<String, Integer> mapCountAndSum = new HashMap<>();
@@ -125,6 +147,10 @@ public class ReportManager {
                     map.get(date).add(productMap);
 
                 }
+                System.out.println("Total result of count: ");
+                System.out.println(totalCount);
+                System.out.println("Total result of price: ");
+                System.out.println(totalSum);
                 return map;
             }
         } catch (SQLException e) {
@@ -132,7 +158,6 @@ public class ReportManager {
         }
         return map;
     }
-
 
 
     //Рассчитать среднюю цену полученного товара за период
@@ -145,13 +170,13 @@ public class ReportManager {
 
     public double getAveragePrice(int product, Timestamp start, Timestamp end) {
         double avg = 0;
-        try(var statement = connection.prepareStatement(GET_AVERAGE_PRICE_SQL)) {
+        try (var statement = connection.prepareStatement(GET_AVERAGE_PRICE_SQL)) {
             statement.setInt(3, product);
             statement.setTimestamp(1, start);
             statement.setTimestamp(2, end);
             statement.executeQuery();
-            try(var resultSet = statement.getResultSet()) {
-                while(resultSet.next()) {
+            try (var resultSet = statement.getResultSet()) {
+                while (resultSet.next()) {
                     avg = resultSet.getDouble("avg_price");
                     return avg;
                 }
@@ -174,19 +199,19 @@ public class ReportManager {
 
     public @NotNull Map<Organization, List<Product>> getListOfProductDeliveredByOrgFOrPeriod(Timestamp start, Timestamp end) {
         Map<Organization, List<Product>> map = new HashMap<>();
-        try(var statement = connection.prepareStatement(GET_LIST_OF_PRODUCTS_DELIVERED_BY_ORG_FOR_PERIOD_SQL)) {
+        try (var statement = connection.prepareStatement(GET_LIST_OF_PRODUCTS_DELIVERED_BY_ORG_FOR_PERIOD_SQL)) {
             statement.setTimestamp(1, start);
             statement.setTimestamp(2, end);
             statement.executeQuery();
-            try(var resultSet = statement.getResultSet()) {
-                while(resultSet.next()) {
+            try (var resultSet = statement.getResultSet()) {
+                while (resultSet.next()) {
                     Organization organization = new Organization(
                             resultSet.getString("org_name"),
                             resultSet.getInt("inn"),
                             resultSet.getInt("payment_account")
                     );
                     Product product = null;
-                    if(resultSet.getString("prod_name") != null) {
+                    if (resultSet.getString("prod_name") != null) {
                         product = new Product(
                                 resultSet.getString("prod_name"),
                                 resultSet.getInt("internal_code")
@@ -195,7 +220,7 @@ public class ReportManager {
                     if (!map.containsKey(organization)) {
                         map.put(organization, new ArrayList<>());
                     }
-                    if(product!= null) {
+                    if (product != null) {
                         map.get(organization).add(product);
                     }
                 }
