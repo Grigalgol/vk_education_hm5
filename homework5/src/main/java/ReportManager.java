@@ -192,10 +192,9 @@ public class ReportManager {
     private final static String GET_LIST_OF_PRODUCTS_DELIVERED_BY_ORG_FOR_PERIOD_SQL = "SELECT organization.name as org_name, organization.inn as inn, " +
             "payment_account, product.name as prod_name, internal_code " +
             "FROM organization " +
-            "LEFT JOIN invoice ON invoice.organization_sender = organization.inn " +
+            "LEFT JOIN invoice ON invoice.organization_sender = organization.inn AND invoice.date BETWEEN ? AND ? " +
             "LEFT JOIN invoice_item ON invoice_item.id_invoice = invoice.id " +
-            "LEFT JOIN product ON product.internal_code = invoice_item.product " +
-            "WHERE date > ? AND date < ? OR date IS null;";
+            "LEFT JOIN product ON product.internal_code = invoice_item.product ";
 
     public @NotNull Map<Organization, List<Product>> getListOfProductDeliveredByOrgFOrPeriod(Timestamp start, Timestamp end) {
         Map<Organization, List<Product>> map = new HashMap<>();

@@ -21,7 +21,17 @@
         <task path="$PROJECT_DIR$">
           <activation />
         </task>
-        <projects_view />
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="homework5" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
       </state>
     </system>
   </component>
@@ -173,11 +183,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.OrganizationDAOTest" />
+        <item itemvalue="Gradle.InvoiceItemDAOTest" />
+        <item itemvalue="Gradle.InvoiceDAOTest" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Gradle.ProductDAOTest" />
-        <item itemvalue="Gradle.InvoiceDAOTest" />
-        <item itemvalue="Gradle.InvoiceItemDAOTest" />
-        <item itemvalue="Gradle.OrganizationDAOTest" />
       </list>
     </recent_temporary>
   </component>
@@ -196,7 +206,10 @@
       <workItem from="1667839694098" duration="12211000" />
       <workItem from="1667898430968" duration="720000" />
       <workItem from="1667932925660" duration="12748000" />
-      <workItem from="1667983397128" duration="2921000" />
+      <workItem from="1667983397128" duration="3047000" />
+      <workItem from="1667987474666" duration="51000" />
+      <workItem from="1668097691650" duration="613000" />
+      <workItem from="1668348706076" duration="750000" />
     </task>
     <servers />
   </component>
