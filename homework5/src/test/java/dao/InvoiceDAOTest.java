@@ -6,8 +6,6 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -18,31 +16,15 @@ import static org.junit.jupiter.api.Assertions.*;
 public class InvoiceDAOTest {
 
     private static InvoiceDAO dao;
-    private static final JDBCCredentials CREDS = JDBCCredentials.DEFAULT;
 
     @BeforeAll
     static void setUp() {
-        try {
-            Connection connection = DriverManager.getConnection(CREDS.url(), CREDS.login(), CREDS.password());
-            connection.setAutoCommit(false);
-            dao = new InvoiceDAO(connection);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        dao = new InvoiceDAO();
     }
 
-    @AfterAll
-    static void tearDown() {
-        try {
-            Connection connection = DriverManager.getConnection(CREDS.url(), CREDS.login(), CREDS.password());
-            connection.setAutoCommit(true);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     @Test
-    void get() {
+    void get() throws SQLException {
         Timestamp time = new Timestamp(122, 10, 5, 12, 0, 0, 0);
         Invoice invoice = new Invoice(1, time, 12345);
         assertEquals(invoice, dao.get(invoice.getId()));
@@ -61,11 +43,18 @@ public class InvoiceDAOTest {
         list.add(new Invoice(3, time3, 12345));
         list.add(new Invoice(4, time4, 55555));
         list.add(new Invoice(5, time5, 55555));
+        list.add(new Invoice(6, time5, 98765));
+        list.add(new Invoice(7, time5, 56789));
+        list.add(new Invoice(8, time5, 66666));
+        list.add(new Invoice(9, time5, 77777));
+        list.add(new Invoice(10, time5, 88888));
+        list.add(new Invoice(11, time5, 54645));
+        list.add(new Invoice(12, time5, 54123));
         assertEquals(list, dao.all());
     }
 
     @Test
-    void save() {
+    void save() throws SQLException {
         Timestamp time1 = new Timestamp(122, 10, 5, 12, 0, 0, 0);
         Invoice invoice = new Invoice(99, time1, 12345);
         dao.save(invoice);
@@ -74,7 +63,7 @@ public class InvoiceDAOTest {
     }
 
     @Test
-    void update() {
+    void update() throws SQLException {
         Timestamp time1 = new Timestamp(122, 10, 5, 12, 0, 0, 0);
         Invoice invoice = new Invoice(99, time1, 12345);
         dao.save(invoice);
@@ -85,7 +74,7 @@ public class InvoiceDAOTest {
     }
 
     @Test
-    void delete() {
+    void delete() throws SQLException {
         Timestamp time1 = new Timestamp(122, 10, 5, 12, 0, 0, 0);
         Invoice invoice = new Invoice(99, time1, 12345);
         dao.save(invoice);

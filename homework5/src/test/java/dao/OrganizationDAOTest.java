@@ -1,14 +1,9 @@
 package dao;
 
-import commons.JDBCCredentials;
 import entity.Organization;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,27 +11,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class OrganizationDAOTest {
     private static OrganizationDAO dao;
-    private static final JDBCCredentials CREDS = JDBCCredentials.DEFAULT;
 
     @BeforeAll
     static void setUp() {
-        try {
-            Connection connection = DriverManager.getConnection(CREDS.url(), CREDS.login(), CREDS.password());
-            connection.setAutoCommit(false);
-            dao = new OrganizationDAO(connection);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @AfterAll
-    static void tearDown() {
-        try {
-            Connection connection = DriverManager.getConnection(CREDS.url(), CREDS.login(), CREDS.password());
-            connection.setAutoCommit(true);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+            dao = new OrganizationDAO();
     }
 
     @Test
@@ -50,7 +28,15 @@ class OrganizationDAOTest {
         List<Organization> list = new ArrayList<>();
         list.add(new Organization("toy shop", 55555, 450012));
         list.add(new Organization("fruit shop", 12345, 123124));
-        list.add(new Organization("null shop", 21231, 2134321));
+        list.add(new Organization("null shop", 21231, 2134231));
+        list.add(new Organization("griga shop", 98765, 41312));
+        list.add(new Organization("computer shop", 56789, 451012));
+        list.add(new Organization("city shop", 68568, 4507712));
+        list.add(new Organization("products shop", 66666, 454562));
+        list.add(new Organization("my shop", 77777, 111111));
+        list.add(new Organization("your shop", 88888, 343246));
+        list.add(new Organization("mini shop", 54645, 987789));
+        list.add(new Organization("maxi shop", 54123, 999999));
         assertEquals(list, dao.all());
     }
 

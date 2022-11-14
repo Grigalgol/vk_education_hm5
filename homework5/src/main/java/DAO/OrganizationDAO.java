@@ -18,26 +18,14 @@ public class OrganizationDAO implements DAO<Organization>{
     private static final String UPDATE_SQL = "UPDATE organization SET name = ?, payment_account = ? WHERE inn = ?";
     private static final String DELETE_SQL = "DELETE FROM organization WHERE inn = ?";
 
-    private final @NotNull Connection connection;
-
     private static final @NotNull JDBCCredentials CREDS = JDBCCredentials.DEFAULT;
 
-    public OrganizationDAO(@NotNull Connection connection) {
-        this.connection = connection;
-    }
-
-    public OrganizationDAO() {
-        try {
-            this.connection = DriverManager.getConnection(CREDS.url(), CREDS.login(), CREDS.password());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     @Override
     public @NotNull Organization get(int id) {
         Organization organization = new Organization();
-        try (var statement = connection.prepareStatement(SELECT_BY_ID_SQL)) {
+        try (var connection = DriverManager.getConnection(CREDS.url(), CREDS.login(), CREDS.password());
+             var statement = connection.prepareStatement(SELECT_BY_ID_SQL)) {
             statement.setInt(1, id);
             try (var resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
@@ -58,7 +46,8 @@ public class OrganizationDAO implements DAO<Organization>{
     @Override
     public @NotNull List<@NotNull Organization> all() {
         List<Organization> allOrganizations = new ArrayList<>();
-        try (var statement = connection.createStatement()) {
+        try (var connection = DriverManager.getConnection(CREDS.url(), CREDS.login(), CREDS.password());
+             var statement = connection.createStatement()) {
             try (var resultSet = statement.executeQuery(SELECT_SQL)) {
                 while (resultSet.next()) {
                     allOrganizations.add(new Organization(
@@ -77,7 +66,8 @@ public class OrganizationDAO implements DAO<Organization>{
 
     @Override
     public void save(@NotNull Organization entity) {
-        try (var statement = connection.prepareStatement(INSERT_SQL)) {
+        try (var connection = DriverManager.getConnection(CREDS.url(), CREDS.login(), CREDS.password());
+             var statement = connection.prepareStatement(INSERT_SQL)) {
             statement.setString(1, entity.getName());
             statement.setInt(2, entity.getINN());
             statement.setInt(3, entity.getPaymentAccount());
@@ -89,7 +79,8 @@ public class OrganizationDAO implements DAO<Organization>{
 
     @Override
     public void update(@NotNull Organization entity) {
-        try (var statement = connection.prepareStatement(UPDATE_SQL)) {
+        try (var connection = DriverManager.getConnection(CREDS.url(), CREDS.login(), CREDS.password());
+             var statement = connection.prepareStatement(UPDATE_SQL)) {
             statement.setString(1, entity.getName());
             statement.setInt(2, entity.getPaymentAccount());
             statement.setInt(3, entity.getINN());
@@ -101,7 +92,8 @@ public class OrganizationDAO implements DAO<Organization>{
 
     @Override
     public void delete(@NotNull Organization entity) {
-        try (var statement = connection.prepareStatement(DELETE_SQL)) {
+        try (var connection = DriverManager.getConnection(CREDS.url(), CREDS.login(), CREDS.password());
+             var statement = connection.prepareStatement(DELETE_SQL)) {
             statement.setInt(1, entity.getINN());
             statement.executeUpdate();
         } catch (SQLException e) {

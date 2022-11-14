@@ -10,19 +10,8 @@ import java.sql.Timestamp;
 import java.util.*;
 
 public class ReportManager {
-    private final @NotNull Connection connection;
     private static final @NotNull JDBCCredentials CREDS = JDBCCredentials.DEFAULT;
 
-    public ReportManager(@NotNull Connection connection) {
-        this.connection = connection;
-    }
-    public ReportManager() {
-        try {
-            this.connection = DriverManager.getConnection(CREDS.url(), CREDS.login(), CREDS.password());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     //Выбрать первые 10 поставщиков по количеству поставленного товара
     private final static String GET_FIRST_10_ORG_SQL =
@@ -35,7 +24,8 @@ public class ReportManager {
 
     public @NotNull List<@NotNull Organization> getFirstTenOrganizationByDeliveredProduct() {
         List<Organization> organizations = new ArrayList<>();
-        try (var statement = connection.createStatement()) {
+        try (var connection = DriverManager.getConnection(CREDS.url(), CREDS.login(), CREDS.password());
+             var statement = connection.createStatement()) {
             try (var resultSet = statement.executeQuery(GET_FIRST_10_ORG_SQL)) {
                 while (resultSet.next()) {
                     organizations.add(new Organization(
@@ -74,7 +64,8 @@ public class ReportManager {
 
         sql.delete(sql.length() - 4, sql.length());
 
-        try (var statement = connection.prepareStatement(sql.toString())) {
+        try (var connection = DriverManager.getConnection(CREDS.url(), CREDS.login(), CREDS.password());
+             var statement = connection.prepareStatement(sql.toString())) {
             int fieldIndex = 1;
             for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
                 Integer code = entry.getKey();
@@ -113,7 +104,8 @@ public class ReportManager {
         Map<Date, List<Map<Product, Map<String, Integer>>>> map = new HashMap<>();
         Map<Product, Integer> totalCount = new HashMap<>();
         Map<Product, Integer> totalSum = new HashMap<>();
-        try (var statement = connection.prepareStatement(GET_COUNT_AND_SUM_PRODUCT_BY_DAY_IN_PERIOD)) {
+        try (var connection = DriverManager.getConnection(CREDS.url(), CREDS.login(), CREDS.password());
+             var statement = connection.prepareStatement(GET_COUNT_AND_SUM_PRODUCT_BY_DAY_IN_PERIOD)) {
             statement.setTimestamp(1, start);
             statement.setTimestamp(2, end);
             statement.executeQuery();
@@ -170,7 +162,8 @@ public class ReportManager {
 
     public double getAveragePrice(int product, Timestamp start, Timestamp end) {
         double avg = 0;
-        try (var statement = connection.prepareStatement(GET_AVERAGE_PRICE_SQL)) {
+        try (var connection = DriverManager.getConnection(CREDS.url(), CREDS.login(), CREDS.password());
+             var statement = connection.prepareStatement(GET_AVERAGE_PRICE_SQL)) {
             statement.setInt(3, product);
             statement.setTimestamp(1, start);
             statement.setTimestamp(2, end);
@@ -198,7 +191,8 @@ public class ReportManager {
 
     public @NotNull Map<Organization, List<Product>> getListOfProductDeliveredByOrgFOrPeriod(Timestamp start, Timestamp end) {
         Map<Organization, List<Product>> map = new HashMap<>();
-        try (var statement = connection.prepareStatement(GET_LIST_OF_PRODUCTS_DELIVERED_BY_ORG_FOR_PERIOD_SQL)) {
+        try (var connection = DriverManager.getConnection(CREDS.url(), CREDS.login(), CREDS.password());
+             var statement = connection.prepareStatement(GET_LIST_OF_PRODUCTS_DELIVERED_BY_ORG_FOR_PERIOD_SQL)) {
             statement.setTimestamp(1, start);
             statement.setTimestamp(2, end);
             statement.executeQuery();

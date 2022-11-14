@@ -89,7 +89,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="InvoiceDAOTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="ReportManagerTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -102,7 +102,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;dao.InvoiceDAOTest&quot;" />
+            <option value="&quot;ReportManagerTest&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -112,7 +112,7 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="InvoiceItemDAOTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="ReportManagerTest.getAveragePriceTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -125,7 +125,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;dao.InvoiceItemDAOTest&quot;" />
+            <option value="&quot;ReportManagerTest.getAveragePriceTest&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -135,7 +135,7 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="OrganizationDAOTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="ReportManagerTest.getCountAndSumProductByDayInPeriodTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -148,7 +148,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;dao.OrganizationDAOTest&quot;" />
+            <option value="&quot;ReportManagerTest.getCountAndSumProductByDayInPeriodTest&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -158,7 +158,7 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="ProductDAOTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="ReportManagerTest.getListOfProductDeliveredByOrgFOrPeriod" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -171,7 +171,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;dao.ProductDAOTest&quot;" />
+            <option value="&quot;ReportManagerTest.getListOfProductDeliveredByOrgFOrPeriod&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -183,11 +183,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.OrganizationDAOTest" />
-        <item itemvalue="Gradle.InvoiceItemDAOTest" />
-        <item itemvalue="Gradle.InvoiceDAOTest" />
         <item itemvalue="Application.Main" />
-        <item itemvalue="Gradle.ProductDAOTest" />
+        <item itemvalue="Gradle.ReportManagerTest" />
+        <item itemvalue="Gradle.ReportManagerTest.getListOfProductDeliveredByOrgFOrPeriod" />
+        <item itemvalue="Gradle.ReportManagerTest.getAveragePriceTest" />
+        <item itemvalue="Gradle.ReportManagerTest.getCountAndSumProductByDayInPeriodTest" />
       </list>
     </recent_temporary>
   </component>
@@ -209,7 +209,9 @@
       <workItem from="1667983397128" duration="3047000" />
       <workItem from="1667987474666" duration="51000" />
       <workItem from="1668097691650" duration="613000" />
-      <workItem from="1668348706076" duration="750000" />
+      <workItem from="1668348706076" duration="1338000" />
+      <workItem from="1668350070617" duration="15000" />
+      <workItem from="1668457796357" duration="7194000" />
     </task>
     <servers />
   </component>

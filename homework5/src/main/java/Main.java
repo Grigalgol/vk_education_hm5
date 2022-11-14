@@ -7,14 +7,13 @@ import entity.Invoice;
 import entity.InvoiceItem;
 import entity.Organization;
 import entity.Product;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Main {
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args){
         FlywayInitializer.initDb();
         var queryManager = new ReportManager();
 

@@ -18,24 +18,13 @@ public class InvoiceItemDAO implements DAO<InvoiceItem> {
     private static final String UPDATE_SQL = "UPDATE invoice_item SET price = ?, count = ?, product = ?, id_invoice = ? WHERE id = ?";
     private static final String DELETE_SQL = "DELETE FROM invoice_item WHERE id = ?";
 
-    private final @NotNull Connection connection;
     private static final @NotNull JDBCCredentials CREDS = JDBCCredentials.DEFAULT;
-
-    public InvoiceItemDAO(@NotNull Connection connection) {
-        this.connection = connection;
-    }
-    public InvoiceItemDAO() {
-        try {
-            this.connection = DriverManager.getConnection(CREDS.url(), CREDS.login(), CREDS.password());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     @Override
     public @NotNull InvoiceItem get(int id) {
         InvoiceItem invoiceItem = new InvoiceItem();
-        try (var statement = connection.prepareStatement(SELECT_BY_ID_SQL)) {
+        try (var connection = DriverManager.getConnection(CREDS.url(), CREDS.login(), CREDS.password());
+             var statement = connection.prepareStatement(SELECT_BY_ID_SQL)) {
             statement.setInt(1, id);
             try (var resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
@@ -61,7 +50,8 @@ public class InvoiceItemDAO implements DAO<InvoiceItem> {
     public @NotNull List<@NotNull InvoiceItem> all() {
 
         List<InvoiceItem> allInvoiceItems = new ArrayList<>();
-        try (var statement = connection.createStatement()) {
+        try (var connection = DriverManager.getConnection(CREDS.url(), CREDS.login(), CREDS.password());
+             var statement = connection.createStatement()) {
             try (var resultSet = statement.executeQuery(SELECT_SQL)) {
                 while (resultSet.next()) {
                     allInvoiceItems.add(new InvoiceItem(
@@ -82,7 +72,8 @@ public class InvoiceItemDAO implements DAO<InvoiceItem> {
 
     @Override
     public void save(@NotNull InvoiceItem entity) {
-        try (var statement = connection.prepareStatement(INSERT_SQL)) {
+        try (var connection = DriverManager.getConnection(CREDS.url(), CREDS.login(), CREDS.password());
+             var statement = connection.prepareStatement(INSERT_SQL)) {
             statement.setInt(1, entity.getId());
             statement.setInt(2, entity.getPrice());
             statement.setInt(3, entity.getProductCode());
@@ -96,7 +87,8 @@ public class InvoiceItemDAO implements DAO<InvoiceItem> {
 
     @Override
     public void update(@NotNull InvoiceItem entity) {
-        try (var statement = connection.prepareStatement(UPDATE_SQL)) {
+        try (var connection = DriverManager.getConnection(CREDS.url(), CREDS.login(), CREDS.password());
+             var statement = connection.prepareStatement(UPDATE_SQL)) {
             statement.setInt(1, entity.getPrice());
             statement.setInt(2, entity.getCount());
             statement.setInt(3, entity.getProductCode());
@@ -110,7 +102,8 @@ public class InvoiceItemDAO implements DAO<InvoiceItem> {
 
     @Override
     public void delete(@NotNull InvoiceItem entity) {
-        try (var statement = connection.prepareStatement(DELETE_SQL)) {
+        try (var connection = DriverManager.getConnection(CREDS.url(), CREDS.login(), CREDS.password());
+             var statement = connection.prepareStatement(DELETE_SQL)) {
             statement.setInt(1, entity.getId());
             statement.executeUpdate();
         } catch (SQLException e) {

@@ -3,9 +3,17 @@
   <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.43">
     <root id="1">
       <DateStyle>mdy</DateStyle>
-      <IntrospectionStateNumber>3300</IntrospectionStateNumber>
+      <Grants>1||-9223372036854775808|c|G
+1||10|c|G
+1||10|C|G
+1||10|T|G
+4||-9223372036854775808|c|G
+4||10|c|G
+4||10|C|G
+4||10|T|G</Grants>
+      <IntrospectionStateNumber>3593</IntrospectionStateNumber>
       <ServerVersion>15.0</ServerVersion>
-      <StartupTime>1668172219</StartupTime>
+      <StartupTime>1668445836</StartupTime>
       <TimeZones>true ACDT
 true ACSST
 false ACST
@@ -819,7 +827,7 @@ false Zulu
 13183||10|C|G
 13183||-9223372036854775808|U|G
 13183||10|U|G</Grants>
-      <IntrospectionStateNumber>3300</IntrospectionStateNumber>
+      <IntrospectionStateNumber>3593</IntrospectionStateNumber>
       <ObjectId>57504</ObjectId>
       <OwnerName>postgres</OwnerName>
     </database>
@@ -4241,10 +4249,315 @@ false Zulu
     <schema id="269" parent="7" name="public">
       <Comment>standard public schema</Comment>
       <Current>1</Current>
-      <IntrospectionStateNumber>3300</IntrospectionStateNumber>
+      <IntrospectionStateNumber>3593</IntrospectionStateNumber>
       <ObjectId>2200</ObjectId>
       <StateNumber>518</StateNumber>
       <OwnerName>pg_database_owner</OwnerName>
     </schema>
+    <table id="270" parent="269" name="flyway_schema_history">
+      <ObjectId>90112</ObjectId>
+      <StateNumber>3565</StateNumber>
+      <AccessMethodId>2</AccessMethodId>
+      <OwnerName>postgres</OwnerName>
+    </table>
+    <table id="271" parent="269" name="invoice">
+      <ObjectId>90135</ObjectId>
+      <StateNumber>3566</StateNumber>
+      <AccessMethodId>2</AccessMethodId>
+      <OwnerName>postgres</OwnerName>
+    </table>
+    <table id="272" parent="269" name="invoice_item">
+      <ObjectId>90145</ObjectId>
+      <StateNumber>3566</StateNumber>
+      <AccessMethodId>2</AccessMethodId>
+      <OwnerName>postgres</OwnerName>
+    </table>
+    <table id="273" parent="269" name="organization">
+      <ObjectId>90128</ObjectId>
+      <StateNumber>3566</StateNumber>
+      <AccessMethodId>2</AccessMethodId>
+      <OwnerName>postgres</OwnerName>
+    </table>
+    <table id="274" parent="269" name="product">
+      <ObjectId>90121</ObjectId>
+      <StateNumber>3566</StateNumber>
+      <AccessMethodId>2</AccessMethodId>
+      <OwnerName>postgres</OwnerName>
+    </table>
+    <column id="275" parent="270" name="installed_rank">
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>3565</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="276" parent="270" name="version">
+      <DataType>varchar(50)|0s</DataType>
+      <Position>2</Position>
+      <StateNumber>3565</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="277" parent="270" name="description">
+      <DataType>varchar(200)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+      <StateNumber>3565</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="278" parent="270" name="type">
+      <DataType>varchar(20)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+      <StateNumber>3565</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="279" parent="270" name="script">
+      <DataType>varchar(1000)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>5</Position>
+      <StateNumber>3565</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="280" parent="270" name="checksum">
+      <DataType>integer|0s</DataType>
+      <Position>6</Position>
+      <StateNumber>3565</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="281" parent="270" name="installed_by">
+      <DataType>varchar(100)|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>7</Position>
+      <StateNumber>3565</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="282" parent="270" name="installed_on">
+      <DataType>timestamp|0s</DataType>
+      <DefaultExpression>now()</DefaultExpression>
+      <NotNull>1</NotNull>
+      <Position>8</Position>
+      <StateNumber>3565</StateNumber>
+      <TypeId>1114</TypeId>
+    </column>
+    <column id="283" parent="270" name="execution_time">
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>9</Position>
+      <StateNumber>3565</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="284" parent="270" name="success">
+      <DataType>boolean|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>10</Position>
+      <StateNumber>3565</StateNumber>
+      <TypeId>16</TypeId>
+    </column>
+    <index id="285" parent="270" name="flyway_schema_history_pk">
+      <ColNames>installed_rank</ColNames>
+      <ObjectId>90118</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>3565</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <index id="286" parent="270" name="flyway_schema_history_s_idx">
+      <ColNames>success</ColNames>
+      <ObjectId>90120</ObjectId>
+      <StateNumber>3565</StateNumber>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="287" parent="270" name="flyway_schema_history_pk">
+      <ObjectId>90119</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>3565</StateNumber>
+      <UnderlyingIndexId>90118</UnderlyingIndexId>
+    </key>
+    <column id="288" parent="271" name="id">
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>3566</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="289" parent="271" name="date">
+      <DataType>timestamp|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StateNumber>3566</StateNumber>
+      <TypeId>1114</TypeId>
+    </column>
+    <column id="290" parent="271" name="organization_sender">
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+      <StateNumber>3566</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <foreign-key id="291" parent="271" name="invoice_organization_sender_fkey">
+      <ColNames>organization_sender</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>90140</ObjectId>
+      <OnDelete>cascade</OnDelete>
+      <OnUpdate>cascade</OnUpdate>
+      <RefColNames>inn</RefColNames>
+      <RefColPositions>2</RefColPositions>
+      <StateNumber>3566</StateNumber>
+      <RefTableId>90128</RefTableId>
+      <RefTableName>organization</RefTableName>
+      <RefTableKind>table</RefTableKind>
+    </foreign-key>
+    <index id="292" parent="271" name="invoice_pk">
+      <ColNames>id</ColNames>
+      <ObjectId>90138</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>3566</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="293" parent="271" name="invoice_pk">
+      <ObjectId>90139</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>3566</StateNumber>
+      <UnderlyingIndexId>90138</UnderlyingIndexId>
+    </key>
+    <column id="294" parent="272" name="id">
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>3566</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="295" parent="272" name="price">
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StateNumber>3566</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="296" parent="272" name="product">
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+      <StateNumber>3566</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="297" parent="272" name="count">
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+      <StateNumber>3566</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="298" parent="272" name="id_invoice">
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>5</Position>
+      <StateNumber>3566</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <foreign-key id="299" parent="272" name="invoice_item_product_fkey">
+      <ColNames>product</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>90150</ObjectId>
+      <OnDelete>cascade</OnDelete>
+      <OnUpdate>cascade</OnUpdate>
+      <RefColNames>internal_code</RefColNames>
+      <RefColPositions>2</RefColPositions>
+      <StateNumber>3566</StateNumber>
+      <RefTableId>90121</RefTableId>
+      <RefTableName>product</RefTableName>
+      <RefTableKind>table</RefTableKind>
+    </foreign-key>
+    <foreign-key id="300" parent="272" name="invoice_item_id_invoice_fkey">
+      <ColNames>id_invoice</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>90155</ObjectId>
+      <OnDelete>cascade</OnDelete>
+      <OnUpdate>cascade</OnUpdate>
+      <RefColNames>id</RefColNames>
+      <RefColPositions>1</RefColPositions>
+      <StateNumber>3566</StateNumber>
+      <RefTableId>90135</RefTableId>
+      <RefTableName>invoice</RefTableName>
+      <RefTableKind>table</RefTableKind>
+    </foreign-key>
+    <index id="301" parent="272" name="invoice_item_pk">
+      <ColNames>id</ColNames>
+      <ObjectId>90148</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>3566</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="302" parent="272" name="invoice_item_pk">
+      <ObjectId>90149</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>3566</StateNumber>
+      <UnderlyingIndexId>90148</UnderlyingIndexId>
+    </key>
+    <column id="303" parent="273" name="name">
+      <DataType>varchar|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>3566</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="304" parent="273" name="inn">
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StateNumber>3566</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="305" parent="273" name="payment_account">
+      <DataType>varchar|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+      <StateNumber>3566</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="306" parent="273" name="organization_pk">
+      <ColNames>inn</ColNames>
+      <ObjectId>90133</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>3566</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="307" parent="273" name="organization_pk">
+      <ObjectId>90134</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>3566</StateNumber>
+      <UnderlyingIndexId>90133</UnderlyingIndexId>
+    </key>
+    <column id="308" parent="274" name="name">
+      <DataType>varchar|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>3566</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="309" parent="274" name="internal_code">
+      <DataType>integer|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StateNumber>3566</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <index id="310" parent="274" name="product_pk">
+      <ColNames>internal_code</ColNames>
+      <ObjectId>90126</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>3566</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="311" parent="274" name="product_pk">
+      <ObjectId>90127</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>3566</StateNumber>
+      <UnderlyingIndexId>90126</UnderlyingIndexId>
+    </key>
   </database-model>
 </dataSource>

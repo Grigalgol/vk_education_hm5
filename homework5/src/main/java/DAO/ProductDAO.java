@@ -18,24 +18,13 @@ public final class ProductDAO implements DAO<Product> {
     private static final String UPDATE_SQL = "UPDATE product SET name = ? WHERE internal_code = ?";
     private static final String DELETE_SQL = "DELETE FROM product WHERE internal_code = ?";
 
-    private final @NotNull Connection connection;
     private static final @NotNull JDBCCredentials CREDS = JDBCCredentials.DEFAULT;
-
-    public ProductDAO(@NotNull Connection connection) {
-        this.connection = connection;
-    }
-    public ProductDAO() {
-        try {
-            this.connection = DriverManager.getConnection(CREDS.url(), CREDS.login(), CREDS.password());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     @Override
     public @NotNull Product get(int id) {
         Product product = new Product();
-        try (var statement = connection.prepareStatement(SELECT_BY_ID_SQL)) {
+        try (var connection = DriverManager.getConnection(CREDS.url(), CREDS.login(), CREDS.password());
+             var statement = connection.prepareStatement(SELECT_BY_ID_SQL)) {
             statement.setInt(1, id);
             try (var resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
@@ -52,7 +41,8 @@ public final class ProductDAO implements DAO<Product> {
     @Override
     public @NotNull List<@NotNull Product> all() {
         List<Product> allProducts = new ArrayList<>();
-        try (var statement = connection.createStatement()) {
+        try (var connection = DriverManager.getConnection(CREDS.url(), CREDS.login(), CREDS.password());
+             var statement = connection.createStatement()) {
             try (var resultSet = statement.executeQuery(SELECT_SQL)) {
                 while (resultSet.next()) {
                     allProducts.add(new Product(resultSet.getString("name"), resultSet.getInt("internal_code")));
@@ -67,7 +57,8 @@ public final class ProductDAO implements DAO<Product> {
 
     @Override
     public void save(@NotNull Product entity) {
-        try (var statement = connection.prepareStatement(INSERT_SQL)) {
+        try (var connection = DriverManager.getConnection(CREDS.url(), CREDS.login(), CREDS.password());
+             var statement = connection.prepareStatement(INSERT_SQL)) {
             statement.setString(1, entity.getName());
             statement.setInt(2, entity.getInternalCode());
             statement.executeUpdate();
@@ -78,7 +69,8 @@ public final class ProductDAO implements DAO<Product> {
 
     @Override
     public void update(@NotNull Product entity) {
-        try (var statement = connection.prepareStatement(UPDATE_SQL)) {
+        try (var connection = DriverManager.getConnection(CREDS.url(), CREDS.login(), CREDS.password());
+             var statement = connection.prepareStatement(UPDATE_SQL)) {
             statement.setString(1, entity.getName());
             statement.setInt(2, entity.getInternalCode());
             statement.executeUpdate();
@@ -89,7 +81,8 @@ public final class ProductDAO implements DAO<Product> {
 
     @Override
     public void delete(@NotNull Product entity) {
-        try (var statement = connection.prepareStatement(DELETE_SQL)) {
+        try (var connection = DriverManager.getConnection(CREDS.url(), CREDS.login(), CREDS.password());
+             var statement = connection.prepareStatement(DELETE_SQL)) {
             statement.setInt(1, entity.getInternalCode());
             statement.executeUpdate();
         } catch (SQLException e) {

@@ -18,24 +18,16 @@ public class InvoiceDAO implements DAO<Invoice> {
     private static final String UPDATE_SQL = "UPDATE invoice SET date = ?, organization_sender = ? WHERE id = ?";
     private static final String DELETE_SQL = "DELETE FROM invoice WHERE id = ?";
 
-    private final @NotNull Connection connection;
     private static final @NotNull JDBCCredentials CREDS = JDBCCredentials.DEFAULT;
 
-    public InvoiceDAO(@NotNull Connection connection) {
-        this.connection = connection;
-    }
-    public InvoiceDAO() {
-        try {
-            this.connection = DriverManager.getConnection(CREDS.url(), CREDS.login(), CREDS.password());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     @Override
     public @NotNull Invoice get(int id) {
+
+
         Invoice invoice = new Invoice();
-        try (var statement = connection.prepareStatement(SELECT_BY_ID_SQL)) {
+        try (var connection = DriverManager.getConnection(CREDS.url(), CREDS.login(), CREDS.password());
+             var statement = connection.prepareStatement(SELECT_BY_ID_SQL)) {
             statement.setInt(1, id);
             try (var resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
@@ -43,7 +35,7 @@ public class InvoiceDAO implements DAO<Invoice> {
                             resultSet.getInt("id"),
                             resultSet.getTimestamp("date"),
                             resultSet.getInt("organization_sender")
-                            );
+                    );
                 }
                 return invoice;
             }
@@ -57,7 +49,8 @@ public class InvoiceDAO implements DAO<Invoice> {
     public @NotNull List<@NotNull Invoice> all() {
 
         List<Invoice> allInvoices = new ArrayList<>();
-        try (var statement = connection.createStatement()) {
+        try (var connection = DriverManager.getConnection(CREDS.url(), CREDS.login(), CREDS.password());
+             var statement = connection.createStatement()) {
             try (var resultSet = statement.executeQuery(SELECT_SQL)) {
                 while (resultSet.next()) {
                     allInvoices.add(new Invoice(
@@ -76,7 +69,8 @@ public class InvoiceDAO implements DAO<Invoice> {
 
     @Override
     public void save(@NotNull Invoice entity) {
-        try (var statement = connection.prepareStatement(INSERT_SQL)) {
+        try (var connection = DriverManager.getConnection(CREDS.url(), CREDS.login(), CREDS.password());
+             var statement = connection.prepareStatement(INSERT_SQL)) {
             statement.setInt(1, entity.getId());
             statement.setTimestamp(2, entity.getDate());
             statement.setInt(3, entity.getOrganizationSender());
@@ -88,7 +82,8 @@ public class InvoiceDAO implements DAO<Invoice> {
 
     @Override
     public void update(@NotNull Invoice entity) {
-        try (var statement = connection.prepareStatement(UPDATE_SQL)) {
+        try (var connection = DriverManager.getConnection(CREDS.url(), CREDS.login(), CREDS.password());
+             var statement = connection.prepareStatement(UPDATE_SQL)) {
             statement.setInt(3, entity.getId());
             statement.setTimestamp(1, entity.getDate());
             statement.setInt(2, entity.getOrganizationSender());
@@ -100,7 +95,8 @@ public class InvoiceDAO implements DAO<Invoice> {
 
     @Override
     public void delete(@NotNull Invoice entity) {
-        try (var statement = connection.prepareStatement(DELETE_SQL)) {
+        try (var connection = DriverManager.getConnection(CREDS.url(), CREDS.login(), CREDS.password());
+             var statement = connection.prepareStatement(DELETE_SQL)) {
             statement.setInt(1, entity.getId());
             statement.executeUpdate();
         } catch (SQLException e) {

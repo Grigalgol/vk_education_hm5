@@ -1,12 +1,8 @@
 package dao;
 
-import commons.JDBCCredentials;
 import entity.Product;
 import org.junit.jupiter.api.*;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,28 +11,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class ProductDAOTest {
 
     private static ProductDAO dao;
-    private static final JDBCCredentials CREDS = JDBCCredentials.DEFAULT;
-
     @BeforeAll
     static void setUp() {
-
-        try {
-            Connection connection = DriverManager.getConnection(CREDS.url(), CREDS.login(), CREDS.password());
-            connection.setAutoCommit(false);
-            dao = new ProductDAO(connection);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @AfterAll
-    static void tearDown() {
-        try {
-            Connection connection = DriverManager.getConnection(CREDS.url(), CREDS.login(), CREDS.password());
-            connection.setAutoCommit(true);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        dao = new ProductDAO();
     }
 
     @Test
